@@ -42,9 +42,8 @@ def callback(indata, frames, time, status):
     print(status)
     return
   if any(indata):
-    callback.window_samples = np.concatenate((callback.window_samples, indata[:, 0])) # append new samples
-    callback.window_samples = callback.window_samples[len(indata[:, 0]):] # remove old samples
-
+    callback.window_samples = np.concatenate((callback.window_samples, indata[:, 0])) 
+    callback.window_samples = callback.window_samples[len(indata[:, 0]):] 
    
     signal_power = (np.linalg.norm(callback.window_samples, ord=2, axis=0)**2) / len(callback.window_samples)
     if signal_power < POWER_THRESH:
@@ -70,7 +69,7 @@ def callback(indata, frames, time, status):
 
     mag_spec_ipol = np.interp(np.arange(0, len(magnitude_spec), 1/NUM_HPS), np.arange(0, len(magnitude_spec)),
                               magnitude_spec)
-    mag_spec_ipol = mag_spec_ipol / np.linalg.norm(mag_spec_ipol, ord=2, axis=0) #normalize it
+    mag_spec_ipol = mag_spec_ipol / np.linalg.norm(mag_spec_ipol, ord=2, axis=0) 
 
     hps_spec = copy.deepcopy(mag_spec_ipol)
 
@@ -87,7 +86,7 @@ def callback(indata, frames, time, status):
     max_freq = round(max_freq, 1)
     closest_pitch = round(closest_pitch, 1)
 
-    callback.noteBuffer.insert(0, closest_note) # note that this is a ringbuffer
+    callback.noteBuffer.insert(0, closest_note) 
     callback.noteBuffer.pop()
 
     os.system('cls' if os.name=='nt' else 'clear')
